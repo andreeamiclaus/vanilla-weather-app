@@ -36,8 +36,21 @@ function displayTemperature(response) {
   iconElement.setAttribute("alt", response.data.weather[0].description); //we do this for the image to look better near description and temperature
 }
 
-let apiKey = "b1c7074725f017b97210de1d82e98750";
-let city = "New York";
-let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+function search(city) {
+  let apiKey = "b1c7074725f017b97210de1d82e98750";
 
-axios.get(apiUrl).then(displayTemperature);
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+  axios.get(apiUrl).then(displayTemperature);
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  let cityInputElement = document.querySelector("#city-input");
+  search(cityInputElement.value); //to search for the city I want when I type the city name in the app
+}
+
+search("New York");
+
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
