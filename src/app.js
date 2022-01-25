@@ -13,7 +13,49 @@ function formatDate(timestamp) {
   let day = days[date.getDay()];
   return `${day} ${hours}:${minutes}`;
 }
-
+function displayForecast() {
+  let forecastElement = document.querySelector("#forecast");
+  let forecastHTML = `<div class="row">`;
+  //Implement HTML in JS, to not have a repeating code in HTML
+  forecastHTML =
+    forecastHTML +
+    ` 
+            <div class="col-2">
+              <div class="weather-forecast-date">sUNDSY</div>
+              <img
+                src="http://openweathermap.org/img/wn/01n@2x.png"
+                alt=""
+                width="36"
+              />
+              <div class="weather-forecast-temperature">
+                <span class="weather-forecast-temperature-max">18 °C</span>
+                <span class="weather-forecast-temperature-min">12 °C</span>
+              </div>
+            </div>
+          
+       
+       `;
+  forecastHTML =
+    forecastHTML +
+    ` 
+            <div class="col-2">
+              <div class="weather-forecast-date">sUNDSY</div>
+              <img
+                src="http://openweathermap.org/img/wn/01n@2x.png"
+                alt=""
+                width="36"
+              />
+              <div class="weather-forecast-temperature">
+                <span class="weather-forecast-temperature-max">18 °C</span>
+                <span class="weather-forecast-temperature-min">12 °C</span>
+              </div>
+            </div>
+          
+       
+       `;
+  forecastHTML = forecastElement + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
 function displayTemperature(response) {
   let temperatureElement = document.querySelector("#temperature");
   let cityElement = document.querySelector("#city");
@@ -83,3 +125,4 @@ let celsiusLink = document.querySelector("#celsius-link");
 celsiusLink.addEventListener("click", displayCelsiusTemperature);
 
 search("New York");
+displayForecast();
