@@ -15,7 +15,9 @@ function formatDate(timestamp) {
 }
 
 //Implement HTML in JS, to not have a repeating code in HTML
-function displayForecast() {
+function displayForecast(response) {
+  //Recieves a response from the getForecast function
+  console.log(response.data.daily);
   let forecastElement = document.querySelector("#forecast");
 
   let days = ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue"];
@@ -44,6 +46,14 @@ function displayForecast() {
   forecastElement.innerHTML = forecastHTML;
   console.log(forecastHTML);
 }
+
+function getForecast(coordinates) {
+  console.log(coordinates);
+  let apiKey = "b1c7074725f017b97210de1d82e98750";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&unit=metric`; //New Api for forecast
+  console.log(apiUrl);
+  axios.get(apiUrl).then(displayForecast); //get to url, once u get the response, display it in displayForecast
+}
 function displayTemperature(response) {
   let temperatureElement = document.querySelector("#temperature");
   let cityElement = document.querySelector("#city");
@@ -66,6 +76,7 @@ function displayTemperature(response) {
     `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
   );
   iconElement.setAttribute("alt", response.data.weather[0].description); //we do this for the image to look better near description and temperature
+  getForecast(response.data.coord);
 }
 
 function search(city) {
