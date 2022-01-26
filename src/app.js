@@ -14,41 +14,55 @@ function formatDate(timestamp) {
   return `${day} ${hours}:${minutes}`;
 }
 
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[day];
+}
 //Implement HTML in JS, to not have a repeating code in HTML
 function displayForecast(response) {
   //Recieves a response from the getForecast function
-  console.log(response.data.daily);
+  let forecast = response.data.daily; //If you console log this you will get an array of 8 objects containing the forecast data for 8 days
   let forecastElement = document.querySelector("#forecast");
 
-  let days = ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue"];
+
 
   let forecastHTML = `<div class="row">`;
-  days.forEach(function (day) {
+  forecast.forEach(function (forecastDay, index) { //this forecastDay.dt function will return info i need from the array
+    if(index <6){
+
+    
     forecastHTML =
       forecastHTML +
       `
       <div class="col-2">
-        <div class="weather-forecast-date">${day}</div>
+        <div class="weather-forecast-date">${formatDay(forecastDay.dt)}</div> 
         <img
-          src="http://openweathermap.org/img/wn/50d@2x.png"
-          alt=""
-          width="42"
+          
+        src="http://openweathermap.org/img/wn/${
+          forecastDay.weather[0].icon
+        }@2x.png"
+        alt=""
+        width="42"
         />
         <div class="weather-forecast-temperatures">
-          <span class="weather-forecast-temperature-max"> 18° </span>
-          <span class="weather-forecast-temperature-min"> 12° </span>
+          <span class="weather-forecast-temperature-max"> ${Math.round(forecastDay.temp.max)}°</span> 
+          <span class="weather-forecast-temperature-min"> ${Math.round(forecastDay.temp.min)}°</span>
         </div>
       </div>
-  `;
-  });
+  `;}
+ });
+  
 
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
-  console.log(forecastHTML);
+  //console.log(forecastHTML);
 }
 
 function getForecast(coordinates) {
-  console.log(coordinates);
+  //console.log(coordinates);
   let apiKey = "b1c7074725f017b97210de1d82e98750";
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&unit=metric`; //New Api for forecast
   console.log(apiUrl);
